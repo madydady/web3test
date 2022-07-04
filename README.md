@@ -39,8 +39,9 @@ Open the directory in your terminal and run the following command:
 
 `web3test.py` script connects to the provider node, specified with `-n` key and writes the data to the file, specified with `-o` key.
 
-**Example:**
-<details>
+<details><summary>Example:</summary>
+<p>
+
 Pending transactions
 
 Transaction data
@@ -64,7 +65,9 @@ chainId:0x89
 v:0
 r:b":d\xaf\xbc\x0b\x1a\xa1\xc2'\xb8%\xd6\xe7\xec\xf2\x12\xda(1'\xaa\x81#X\x13mkMUC\\\x9e"
 s:b'tn\xc5.p\x00 \xbc\x84\xd9\xea\xd2@\xd4JH\xa7h\x1a*\xff\x13\x1eBX4\x85%\x81\x82\xe1\xae'
+</p>
 </details>
+
 
 ## Keys and arguments
 The script can be run with the following keys:
