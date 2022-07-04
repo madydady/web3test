@@ -39,7 +39,7 @@ Open the directory in your terminal and run the following command:
 
 `web3test.py` script connects to the provider node, specified with `-n` key and writes the data to the file, specified with `-o` key.
 
-<details><summary>Example:</summary>
+<details><summary>Example of pending transaction data:</summary>
 <p>
 Pending transactions
 
@@ -98,3 +98,5 @@ If some necessary keys are not specified in the command line, an error message w
 ```
 Usage: web3test.py -n|-t <node address> [-o <filename>]
 ```
+# How it works
+
