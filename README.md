@@ -88,7 +88,7 @@ s:b'tn\xc5.p\x00 \xbc\x84\xd9\xea\xd2@\xd4JH\xa7h\x1a*\xff\x13\x1eBX4\x85%\x81\x
 
 ## Keys and arguments
 The script can be run with the following keys:
-* `-n <node>` - where <node> is the URL to remote provider node, that should be a node in the Polygon network
+* `-n <node>` - where *node* is the URL to remote provider node, that should be a node in the Polygon network
 > Working with other providers was not tested, but supposedly the script should work with other EVM based networks
 * `-t` - if set instead of `-n`, then default test Polygon node of [Alchemy.com](https://www.alchemy.com/layer2/polygon) network will be used
 >Either `-n` or `-t` key must be provided 
