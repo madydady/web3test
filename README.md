@@ -37,7 +37,7 @@ Open the directory in your terminal and run the following command:
 
 > **Note!** The command prompt above starts with `(.venv-py3)` indicating that we are working in the virtual environment. This will be omitted for brevity in the following code snippets.
 
-`web3test.py` script connects to provider node, specified with `-n` key and writes the data to the file, specified with `-o` key. For authentication purposes you should enter your API-KEY as a part of URL. You get your API-KEY, when you register at your blockchain network provider. If you don't yet have an API-KEY, you can try for testing purposes a default node. Use `-t` instead of `-n` in that case. For details see []   
+`web3test.py` script connects to provider node, specified with `-n` key and writes the data to the file, specified with `-o` key. For authentication purposes you should enter your API-KEY as a part of URL. You get your API-KEY, when you register at your blockchain network provider. If you don't yet have an API-KEY, you can try for testing purposes a default node. Use `-t` instead of `-n` in that case. For details see [Keys and arguments](https://github.com/madydady/web3test/blob/main/README.md#keys-and-arguments)   
 
 <details><summary>Example of pending transaction data:</summary>
 <p>
