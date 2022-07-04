@@ -41,11 +41,11 @@ Open the directory in your terminal and run the following command:
 
 <details><summary>Example:</summary>
 <p>
-
+```
 Pending transactions
 
 Transaction data
-=================
+
 blockHash:None
 blockNumber:None
 from:0x0993e8c8a88Ad6f588B9BA44786ECe841daf0A14
