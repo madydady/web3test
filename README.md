@@ -90,7 +90,7 @@ The script can be run with the following keys:
 * `-n <node>` - where *node* is the URL to remote provider node. The script should work with nodes in the Polygon network. Working with other providers was not tested, but supposedly the script will also work with other EVM based networks
 * `-t` - if set instead of `-n`, then default test Polygon node of [Alchemy.com](https://www.alchemy.com/layer2/polygon) network will be used
 >Either `-n` or `-t` key must be provided to run the script 
-* `-o` <file> - where <file> is the name of file to write data about pending transactions. If there is no such file, it will be created. Optional key - if omitted, the data will be sent to stdout
+* `-o <file>` - where *file* is the name of file to write data about pending transactions. If there is no such file, it will be created. Optional key - if omitted, the data will be sent to stdout
 
 If some necessary keys are not specified in the command line, an error message will be displayed:
 ```
