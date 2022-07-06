@@ -37,7 +37,7 @@ Open the directory in your terminal and run the following command:
 
 > **Note!** The command prompt above starts with `(.venv)` indicating that we are working in the virtual environment. This will be omitted for brevity in the following code snippets.
 
-`web3test.py` script connects to provider node, specified with `-n` key and writes the data to the file, specified with `-o` key. For authentication purposes you should enter your API-KEY as a part of URL. You get your API-KEY, when you register at your blockchain network provider. If you don't yet have an API-KEY, you can try for testing purposes a default node. Use `-t` instead of `-n` in that case. For details see [Keys and arguments](https://github.com/madydady/web3test/blob/main/README.md#keys-and-arguments)   
+`web3test.py` script connects to provider node, specified with `-n` key. For authentication purposes you should enter your API-KEY as a part of URL. You get your API-KEY, when you register at your blockchain network provider. If you don't yet have an API-KEY, you can try for testing purposes a default node. Use `-t` instead of `-n` in that case. For details see [Keys and arguments](https://github.com/madydady/web3test/blob/main/README.md#keys-and-arguments). Data is writen to the file, specified with `-o` key. Or if no file is set the data will be displayed in your terminal window (or your stdout).   
 
 <details><summary>Example of pending transaction data:</summary>
 <p>
@@ -85,7 +85,6 @@ s:b'tn\xc5.p\x00 \xbc\x84\xd9\xea\xd2@\xd4JH\xa7h\x1a*\xff\x13\x1eBX4\x85%\x81\x
 </p>
 </details>
 
-
 ## Keys and arguments
 The script can be run with the following keys:
 * `-n <node>` - where *node* is the URL to remote provider node. The script should work with nodes in the Polygon network. Working with other providers was not tested, but supposedly the script will also work with other EVM based networks
@@ -97,6 +96,7 @@ If some necessary keys are not specified in the command line, an error message w
 ```
 Usage: web3test.py -n|-t <node address> [-o <filename>]
 ```
+
 # How it works
 The script reads keys and arguments given in the command line and connects either to the specified remote provider node, or the default Polygon node, hosted at *polygon-mainnet.g.alchemy.com*.
 
@@ -126,7 +126,7 @@ if path:
 	f.close()
 ```
 
-The path to file where data is written depends on the `-o` key, set for the script.
+The path to file where data is written depends on the `-o` key set for the script.
 
 ```
 if "-o" in opts:
