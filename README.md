@@ -102,7 +102,7 @@ The script reads keys and arguments given in the command line and connects eithe
 
 ## Establishing connection to Polygon chain node
 
-Instance of web3 class derived from Web3 library is created. This web3 object connects to provider node using HTTPProvider. Special middleware layer between provider and other Web3 methods is used to handle native communication with the Ethereum client. The layer can modify the request and/or response between provider and Etherium. This is used to avoid error, which occures when working with POA nodes, with block size of 97 bytes instead of usual 32 bytes.
+Instance of web3 class derived from Web3 library is created. This web3 object connects to provider node using HTTPProvider. Special middleware layer between provider and other Web3 methods is used to handle native communication with the Ethereum client. The layer can modify the request and/or response between provider and Etherium cloud. This is used to avoid error, which occures when working with POA nodes with block size of 97 bytes instead of usual 32 bytes.
 
 ```
 #establishing HTTP connection to Polygon chain node
