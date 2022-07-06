@@ -13,15 +13,15 @@ Clone this repository to your working directory. Then go to the directory, open 
 
 2. Create virtual environment
 
-  `virtualenv -p python3 ~/.venv-py3`
+  `virtualenv -p python3 ~/.venv`
 
 3. Activate virtual environment
 
-  `source ~/.venv-py3/bin/activate`
+  `source ~/.venv/bin/activate`
   
   When activated, your command prompt will look like this:
   
-  `(.venv-py3) user@mycomputer:~/$`
+  `(.venv) user@mycomputer:~/$`
 
 > **Note!** Each new terminal session requires you to reactivate your virtualenv
 
@@ -33,9 +33,9 @@ Clone this repository to your working directory. Then go to the directory, open 
 
 Open the directory in your terminal and run the following command:
 
-`(.venv-py3) user@mycomputer:~/mydir$ python3 web3test.py -n https://polygon-mainnet.provider.com/your-api-key -o pending_trans.txt`
+`(.venv) user@mycomputer:~/mydir$ python web3test.py -n https://polygon-mainnet.provider.com/your-api-key -o pending_trans.txt`
 
-> **Note!** The command prompt above starts with `(.venv-py3)` indicating that we are working in the virtual environment. This will be omitted for brevity in the following code snippets.
+> **Note!** The command prompt above starts with `(.venv)` indicating that we are working in the virtual environment. This will be omitted for brevity in the following code snippets.
 
 `web3test.py` script connects to provider node, specified with `-n` key and writes the data to the file, specified with `-o` key. For authentication purposes you should enter your API-KEY as a part of URL. You get your API-KEY, when you register at your blockchain network provider. If you don't yet have an API-KEY, you can try for testing purposes a default node. Use `-t` instead of `-n` in that case. For details see [Keys and arguments](https://github.com/madydady/web3test/blob/main/README.md#keys-and-arguments)   
 
@@ -88,15 +88,51 @@ s:b'tn\xc5.p\x00 \xbc\x84\xd9\xea\xd2@\xd4JH\xa7h\x1a*\xff\x13\x1eBX4\x85%\x81\x
 
 ## Keys and arguments
 The script can be run with the following keys:
-* `-n <node>` - where *node* is the URL to remote provider node, that should be a node in the Polygon network
-> Working with other providers was not tested, but supposedly the script should work with other EVM based networks
+* `-n <node>` - where *node* is the URL to remote provider node. The script should work with nodes in the Polygon network. Working with other providers was not tested, but supposedly the script will also work with other EVM based networks
 * `-t` - if set instead of `-n`, then default test Polygon node of [Alchemy.com](https://www.alchemy.com/layer2/polygon) network will be used
->Either `-n` or `-t` key must be provided 
-* `-o` <filename> - where <filename> is the name of file to write data about pending transactions. If there is no such file, it will be created. If the key is omitted, the data will be sent to stdout
+>Either `-n` or `-t` key must be provided to run the script 
+* `-o` <filename> - where <filename> is the name of file to write data about pending transactions. If there is no such file, it will be created. Optional key - if omitted, the data will be sent to stdout
 
 If some necessary keys are not specified in the command line, an error message will be displayed:
 ```
 Usage: web3test.py -n|-t <node address> [-o <filename>]
 ```
 # How it works
+The script reads keys and arguments given in the command line and connects either to the specified remote provider node, or the default Polygon node, hosted at *polygon-mainnet.g.alchemy.com*.
 
+## Establishing connection to Polygon chain node
+
+Instance of web3 class derived from Web3 library is created. This web3 object connects to provider node using HTTPProvider. Special middleware layer between provider and other Web3 methods is used to handle native communication with the Ethereum client. The layer can modify the request and/or response between provider and Etherium. This is used to avoid error, which occures when working with POA nodes, with block size of 97 bytes instead of usual 32 bytes.
+
+```
+#establishing HTTP connection to Polygon chain node
+w3 = Web3(HTTPProvider(node))
+#using middleware to work with POA extraData blocks 97 bytes long instaed of usuall 32 bytes block
+w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+```
+
+## Using filter to derive data about pending transactions
+The script uses `web3.eth.filter()` method with `pending` argument to get unmined (pending) transactions that the node receives. And `w3.eth.get_filter_changes()` method to get each new pending transaction. `w3.eth.get_filter_changes()` method returns a list of dictionary objects, where each dictionary contains key-value pairs with transaction data. The `w3.eth.get_transaction()` method is used to handle these dictionary objects. Each key-value pair for transaction is either printed to file or displayed in the terminal.
+
+```
+if path:
+	with open(path, 'a') as f:
+		f.write("Pending transactions\n")
+		for item in w3.eth.get_filter_changes(filt.filter_id):
+			f.write('\nTransaction data\n=================\n')
+			for k, v in w3.eth.get_transaction(item).items():
+				line = (str(k) + ":" + str(v) + "\n")
+				f.write(line)
+	f.close()
+```
+
+The path to file where data is written depends on the `-o` key, set for the script.
+
+```
+if "-o" in opts:
+	i = opts.index("-o") - 1
+	path = [os.getcwd(), args[i]]
+	path = '/'.join(path)
+else:
+	path = None
+```
