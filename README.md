@@ -1,13 +1,13 @@
 # Pending transactions script
 
-This Python script is intended to retrieve from distant blockchain node information about pending transactions. It uses Web3.py library that is derived from original Web3.js library to interact with EVM network using Python programming language. When executed the script connects to the specified node, then gets the list of current pending transactions and prints transaction info.
+This Python script retrieves information about pending transactions from a distant blockchain node. It uses *Web3.py* library to interact with EVM network using Python programming language. The script connects to the specified node, then gets the list of current pending transactions and prints transaction info.
 
 # Setting up environment
-Python programming language version 3.6 or higher should be installed in your system. Web3.py module also needs to be installed as well as other dependencies, listed in file **requirements.txt**. You can use [pip](https://pip.pypa.io/en/stable/installation/) utility to install all these dependencies from the file. But first of all it is strongly recommended to enable `virtualenv` cause in case of troubles with dependencies installation you may get broken working environment.
+Python programming language version 3.6 or higher should be installed in your system. *Web3.py* module also needs to be installed as well as other dependencies, listed in file **requirements.txt**. Specify this file as an argument for [pip](https://pip.pypa.io/en/stable/installation/) utility to install all necessary dependencies (see example below). But first of all it is strongly recommended to enable *virtualenv* to avoid broken working environment if something goes wrong with dependency installation.
 
-Clone this repository to your working directory. Then go to the directory, open the command line and run the following commands:
+To set up your environment, clone this repository to your working directory. Then go to the directory, open the command line and run the following commands:
 
-1. Install virtualenv if not yet installed
+1. Install *virtualenv* if not yet installed
 
   `pip install virtualenv`
 
@@ -23,21 +23,20 @@ Clone this repository to your working directory. Then go to the directory, open 
   
   `(.venv) user@mycomputer:~/$`
 
-> **Note!** Each new terminal session requires you to reactivate your virtualenv
+> **Note!** Each new terminal session requires to reactivate virtualenv again
 
 4. Install necessary requirements
 
   `pip install -r requirements.txt`
 
 # Running the script
-
-Open the directory in your terminal and run the following command:
+Once the virtualenv is activated and all requierements are installed, open the directory in your terminal and run the following command:
 
 `(.venv) user@mycomputer:~/mydir$ python web3test.py -n https://polygon-mainnet.provider.com/your-api-key -o pending_trans.txt`
 
-> **Note!** The command prompt above starts with `(.venv)` indicating that we are working in the virtual environment. This will be omitted for brevity in the following code snippets.
+> **Note!** The command prompt above starts with `(.venv)` indicating that we are working in the virtual environment. This will be omitted for brevity in the following code snippets
 
-`web3test.py` script connects to provider node, specified with `-n` key. For authentication purposes you should enter your API-KEY as a part of URL. You get your API-KEY, when you register at your blockchain network provider. If you don't yet have an API-KEY, you can try for testing purposes a default node. Use `-t` instead of `-n` in that case. For details see [Keys and arguments](https://github.com/madydady/web3test/blob/main/README.md#keys-and-arguments). Data is writen to the file, specified with `-o` key. Or, if no file is specified, the data will be displayed in your terminal window (or your stdout).
+`web3test.py` script connects to provider node, specified with `-n` key. For authentication purposes you should enter your API-KEY as a part of URL. You get your API-KEY, when you register at your blockchain network provider. If you don't yet have an API-KEY, you can try for testing purposes a default node. Use `-t` instead of `-n` in that case. For details see [Keys and arguments](https://github.com/madydady/web3test/blob/main/README.md#keys-and-arguments). Data is writen into the file, specified with the `-o` key. Or if no file is specified, pending transaction data will be displayed in your terminal window (or your stdout).
 
 <details><summary>Example of pending transaction data:</summary>
 <p>
@@ -87,10 +86,10 @@ s:b'tn\xc5.p\x00 \xbc\x84\xd9\xea\xd2@\xd4JH\xa7h\x1a*\xff\x13\x1eBX4\x85%\x81\x
 
 ## Keys and arguments
 The script can be run with the following keys:
-* `-n <node>` - where *node* is the URL to remote provider node. The script should work with nodes in the Polygon network. Working with other providers was not tested, but supposedly the script will also work with other EVM based networks
-* `-t` - if set instead of `-n`, then default test Polygon node of [Alchemy.com](https://www.alchemy.com/layer2/polygon) network will be used
+* `-n <node>` - where *node* is an URL to the remote provider node. The script was tested for nodes in the Polygon network. Working with other providers was not tested, but supposedly it will also work with other EVM based networks;
+* `-t` - if set instead of `-n`, then the default test Polygon node of [Alchemy.com](https://www.alchemy.com/layer2/polygon) network will be used;
 >Either `-n` or `-t` key must be provided to run the script 
-* `-o <file>` - where *file* is the name of the file to write data about pending transactions. If there is no such file, it will be created. Optional key - if omitted, the data will be sent to stdout
+* `-o <file>` - where *file* is the name of the file to write data about pending transactions. If there is no such file, it will be created. This is an optional key - if omitted, the data will be sent to your stdout.
 
 If some necessary keys are not specified in the command line, an error message will be displayed:
 ```
@@ -101,8 +100,7 @@ Usage: web3test.py -n|-t <node address> [-o <filename>]
 The script reads keys and arguments given in the command line and connects either to the specified remote provider node, or the default Polygon node, hosted at *polygon-mainnet.g.alchemy.com*.
 
 ## Establishing connection to Polygon chain node
-
-Instance of `Web3` class derived from Web3 library is created. This Web3 object connects to provider node using `HTTPProvider`. Special middleware layer between provider and other Web3 methods is used to handle native communication with the Ethereum client. The layer can modify the request and/or response between provider and Etherium cloud. This is used to avoid error, which occures when working with POA nodes with block size of 97 bytes instead of usual 32 bytes.
+Instance of a `Web3` class derived from the Web3 library is created. This Web3 object connects to provider node using `HTTPProvider`. Special middleware layer between provider and other Web3 methods is used to handle native communication with Ethereum client. The layer can modify the request and/or response between provider and Etherium cloud. This is used to avoid error, which occures when working with POA nodes with block size of 97 bytes instead of usual 32 bytes.
 
 ```
 #establishing HTTP connection to Polygon chain node
@@ -112,7 +110,7 @@ w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 ```
 
 ## Using filter to derive data about pending transactions
-The script uses `web3.eth.filter()` method with `pending` argument to get unmined (pending) transactions that the node receives. And `w3.eth.get_filter_changes()` method to get each new pending transaction. `w3.eth.get_filter_changes()` method returns a list of dictionary objects, where each dictionary contains key-value pairs with transaction data. The `w3.eth.get_transaction()` method is used to handle these dictionary objects. Each key-value pair for transaction is either printed to file (if the file path is specified), or displayed in the terminal.
+The script uses `web3.eth.filter()` method with `pending` argument to get unmined (pending) transactions that the node receives. And `w3.eth.get_filter_changes()` method to get each new pending transaction. `w3.eth.get_filter_changes()` method returns a list of dictionary objects, where each dictionary contains key-value pairs with transaction data. `w3.eth.get_transaction()` method is used to handle these dictionary objects. Each key-value pair for transaction is either printed to file (if the file path is specified), or displayed in the terminal.
 
 ```
 if path:
@@ -126,7 +124,7 @@ if path:
 	f.close()
 ```
 
-The path to file where data is written depends on the `-o` key given in the command line arguments.
+Path to the file where data will be written depends on the `-o` key given in the command line arguments.
 
 ```
 if "-o" in opts:
